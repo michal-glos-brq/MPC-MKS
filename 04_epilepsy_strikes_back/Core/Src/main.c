@@ -160,16 +160,12 @@ int main(void)
 	      	break;
 
 	    case SHOW_VOLT:
-	    	sct_value(voltage, 0);
+	    	sct_value_decimals(voltage, 0, 1);
 	        break;
 
 	    case SHOW_TEMP:
 	    	sct_value(temperature, 0);
 	    	break;
-//	    default:
-//	    	sct_value(rescaled_pot, bargraph_leds);
-//	    	HAL_Delay(50);
-//	    	state = 0;
 	  }
 
 	  HAL_Delay(50);
