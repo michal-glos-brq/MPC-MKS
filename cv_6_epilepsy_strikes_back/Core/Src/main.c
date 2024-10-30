@@ -135,10 +135,9 @@ int main(void)
 
 	  switch (state){
 	  case DS:
+		  HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, 1);
+		  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 0);
 		  if (HAL_GetTick() > delay + CONVERT_T_DELAY) {
-			  HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, 1);
-			  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 0);
-
 			  OWConvertAll();
 			  OWReadTemperature(&temp);
 			  sct_value(temp / 10, 0);
@@ -146,10 +145,9 @@ int main(void)
 		  break;
 
 	  case NTC:
+		  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 1);
+		  HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, 0);
 		  if (HAL_GetTick() > delay + HAL_DELAY) {
-			  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 1);
-			  HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, 0);
-
 			  sct_value(ntc_lookup[ADC_value], 0);
 		  }
 		  break;
