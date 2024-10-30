@@ -34,6 +34,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define CONVERT_T_DELAY 750
+#define HAL_DELAY 50
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -106,9 +107,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  /* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
-	  /* USER CODE BEGIN 3 */
+    /* USER CODE BEGIN 3 */
 
 	  static int16_t temp;
 	  static uint32_t ADC_value;
@@ -134,11 +135,10 @@ int main(void)
 
 	  switch (state){
 	  case DS:
-		  if (HAL_GetTick() > delay + 750) {
+		  if (HAL_GetTick() > delay + CONVERT_T_DELAY) {
 			  HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, 1);
 			  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 0);
 
-//			  HAL_Delay(CONVERT_T_DELAY);
 			  OWConvertAll();
 			  OWReadTemperature(&temp);
 			  sct_value(temp / 10, 0);
@@ -146,11 +146,10 @@ int main(void)
 		  break;
 
 	  case NTC:
-		  if (HAL_GetTick() > delay + 50) {
+		  if (HAL_GetTick() > delay + HAL_DELAY) {
 			  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 1);
 			  HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, 0);
 
-//			  HAL_Delay(50);
 			  sct_value(ntc_lookup[ADC_value], 0);
 		  }
 		  break;
@@ -307,14 +306,11 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LED1_Pin|LD2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LED1_Pin|LD2_Pin|DQ_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LED2_Pin|SCT_NOE_Pin|SCT_CLK_Pin|SCT_SDI_Pin
                           |SCT_NLA_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(DQ_GPIO_Port, DQ_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -328,8 +324,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LED1_Pin LD2_Pin */
-  GPIO_InitStruct.Pin = LED1_Pin|LD2_Pin;
+  /*Configure GPIO pins : LED1_Pin LD2_Pin DQ_Pin */
+  GPIO_InitStruct.Pin = LED1_Pin|LD2_Pin|DQ_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -343,13 +339,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : DQ_Pin */
-  GPIO_InitStruct.Pin = DQ_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(DQ_GPIO_Port, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
