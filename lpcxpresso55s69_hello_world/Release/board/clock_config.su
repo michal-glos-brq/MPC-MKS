@@ -1,0 +1,6 @@
+../board/clock_config.c:79:6:BOARD_BootClockFRO12M	16	static
+../board/clock_config.c:127:6:BOARD_BootClockFROHF96M	16	static
+../board/clock_config.c:183:6:BOARD_BootClockPLL100M	48	static
+../board/clock_config.c:259:6:BOARD_BootClockPLL150M	56	static
+../board/clock_config.c:52:6:BOARD_InitBootClocks	0	static
+../board/clock_config.c:332:6:BOARD_BootClockPLL1_150M	56	static

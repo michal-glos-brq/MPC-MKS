@@ -1,0 +1,7 @@
+ExitOnError 1
+r
+h
+loadfile "C:\Users\xglosm01\Documents\MCUXpressoIDE_11.10.0_3148\workspace\lpcxpresso55s69_hello_world\Debug\lpcxpresso55s69_hello_world.hex"
+qc
+
+qc
